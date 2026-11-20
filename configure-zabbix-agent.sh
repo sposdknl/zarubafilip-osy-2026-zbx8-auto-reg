@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-export DEBIAN_FRONTEND=noninteractive
-
 # Install uuid (GNU sed je v Debianu jiz v zakladu)
 sudo apt-get install -y uuid-runtime
 
