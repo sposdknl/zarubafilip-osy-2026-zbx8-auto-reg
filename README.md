@@ -1,8 +1,5 @@
 # OSY: Automatická registrace Debianu 13 do Zabbixu
 
-Toto je šablona zadání pro výuku předmětu OSY na [osy.sposdk.cz](https://osy.sposdk.cz/). Z této šablony vznikne váš vlastní žákovský repozitář. Pracujte a odevzdávejte změny v něm.
-
-
 ## 1. Popis projektu
 
 Tento projekt vznikl v rámci předmětu Operační systémy (OSY). Jeho cílem je automatizovat nasazení virtuálního serveru s operačním systémem Debian 13 a jeho připojení do monitorovacího systému Zabbix 8.0 LTS.
