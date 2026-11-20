@@ -4,35 +4,85 @@
 
 Toto je šablona zadání pro výuku předmětu OSY na [osy.sposdk.cz](https://osy.sposdk.cz/). Z této šablony vznikne váš vlastní žákovský repozitář. Pracujte a odevzdávejte změny v něm.
 
-## Cíl úlohy
 
-Spusťte pomocí Vagrantu virtuální stroj s **Debianem 13**. Nainstalujte na něj **Zabbix Agent 2 verze 8.0 LTS** a nastavte jeho automatickou registraci na server `enceladus.pfsense.cz`. Instalace a konfigurace agenta musí proběhnout automaticky prostřednictvím provisioningu ve `Vagrantfile`; ruční instalace uvnitř virtuálního stroje nestačí. Vzorové skripty najdete v adresáři [`Example/`](Example/). Výsledkem má být funkční, monitorovaný host s vaším jedinečným názvem.
+## 1. Popis projektu
 
-## Požadavky
+Tento projekt vznikl v rámci předmětu Operační systémy (OSY). Jeho cílem je automatizovat nasazení virtuálního serveru s operačním systémem Debian 13 a jeho připojení do monitorovacího systému Zabbix 8.0 LTS.
 
-1. Vytvořte v kořeni svého repozitáře `Vagrantfile` pro Debian 13. Jako výchozí bod můžete použít [`Vagrant/Vagrantfile-debian`](Vagrant/Vagrantfile-debian).
-2. Připravte vlastní instalační a konfigurační skripty a zapojte je jako Vagrant provisionery. Instalace musí používat **oficiální repozitář Zabbix 8.0 pro Debian 13**, nikoli balíček starší verze nebo balíček z výchozího repozitáře Debianu.
-3. Nastavte v agentovi `Server` a `ServerActive` na `enceladus.pfsense.cz`, `HostMetadata=SPOS` a jedinečný `Hostname`. Název hosta musí zůstat stejný po restartu virtuálního stroje i po opakovaném spuštění provisioningu.
-4. Registrace proběhne na Zabbix serveru `enceladus.pfsense.cz`, kde jsou již připravena pravidla pro hosty s `HostMetadata=SPOS`. Po registraci ověřte, že má váš host přiřazenou skupinu, štítek a šablonu pro monitoring Linuxu agentem 2.
-5. Ověřte, že se host v Zabbixu skutečně objevil a že z něj přicházejí data.
+Pro vytvoření a konfiguraci virtuálního stroje je využit nástroj **Vagrant**. Instalace a nastavení Zabbix Agent 2 probíhá automaticky prostřednictvím provisioning skriptů, bez nutnosti ručních zásahů uvnitř virtuálního stroje.
 
-## Stručná nápověda k postupu
+## 2. Použité technologie
 
-- Projděte si ukázku v adresáři [`Example/`](Example/). Je určena pro starší Ubuntu a starší Zabbix: použijte ji jen jako inspiraci pro strukturu Vagrantfile a skriptů.
-- Na [stránce ke stažení Zabbixu](https://www.zabbix.com/download) vyberte větev **8.0 LTS**, distribuci **Debian 13** a komponentu **Agent 2**. Získané instalační kroky převeďte do skriptu. Po instalaci zkontrolujte verzi agenta a stav služby.
-- V konfiguraci `/etc/zabbix/zabbix_agent2.conf` se zaměřte na parametry `Hostname`, `Server`, `ServerActive` a `HostMetadata`. Automatickou registraci zahajuje aktivní spojení agenta se serverem.
-- Při hledání chyby ověřte dostupnost serveru `enceladus.pfsense.cz`, stav služby `zabbix-agent2` a její záznamy v systémovém žurnálu.
+- **Debian 13** – operační systém virtuálního stroje.
+- **Vagrant** – automatizované vytváření a správa virtuálního stroje.
+- **VirtualBox** – virtualizační platforma.
+- **Zabbix Agent 2 8.0 LTS** – monitorovací agent.
+- **Bash** – instalační a konfigurační skripty.
+- **Git a GitHub** – správa verzí a odevzdání projektu.
 
-## Co odevzdat
+## 3. Princip fungování
 
-Ve svém žákovském repozitáři doporučujeme odstranit vše, co jste ze šablony nevyužili, a ponechat jen soubory potřebné k odevzdání:
+Celé nasazení je automatizováno pomocí souboru `Vagrantfile` a provisioning skriptů.
 
-- Funkční `Vagrantfile` a vlastní instalační a konfigurační skripty, které automaticky připraví agenta.
-- V adresáři `Images/` snímky obrazovky dokazující **registraci hosta s vaším jedinečným názvem** a **funkční monitorování** (například aktuálně přijímaná data v Zabbixu).
-- Upravený `README.md` se stručným popisem postupu práce, způsobem spuštění a ověření výsledku. Můžete do něj přidat také vlastní tematický obrázek.
+Postup nasazení:
 
-## Dokumentace
+1. Vagrant vytvoří virtuální stroj s Debianem 13.
+2. Spustí se provisioning skripty.
+3. Přidá se oficiální repozitář Zabbix 8.0 LTS pro Debian 13.
+4. Nainstaluje se Zabbix Agent 2.
+5. Automaticky se nastaví konfigurace agenta.
+6. Spustí a povolí se služba Zabbix Agent 2.
+7. Agent naváže aktivní spojení se Zabbix serverem a zahájí automatickou registraci.
 
-- [Zabbix 8.0: instalace z oficiálních balíčků](https://www.zabbix.com/documentation/8.0/en/manual/installation/install/packages)
-- [Zabbix 8.0: automatická registrace aktivního agenta](https://www.zabbix.com/documentation/8.0/en/manual/discovery/auto_registration)
-- [Zabbix 8.0: parametry konfigurace agenta 2](https://www.zabbix.com/documentation/8.0/en/manual/concepts/agent2/agent2_params)
+### Konfigurace Zabbix agenta
+
+Agent komunikuje se serverem:
+
+`enceladus.pfsense.cz`
+
+## 4. Spuštění projektu
+
+### Požadavky
+
+Před spuštěním je potřeba mít nainstalováno:
+
+- Oracle VM VirtualBox
+- HashiCorp Vagrant
+- Git (volitelně pro správu verzí)
+
+### Spuštění virtuálního stroje
+
+V kořenovém adresáři projektu spusťte PowerShell nebo terminál a zadejte:
+
+```bash
+vagrant up
+```
+
+Tím se vytvoří virtuální stroj, nainstaluje Debian 13 a automaticky se provedou všechny konfigurační a instalační kroky.
+
+## 5. Ověření funkčnosti
+
+Po dokončení provisioningu je možné ověřit instalaci a stav Zabbix Agenta 2 přímo ve virtuálním stroji.
+
+Kontrola verze agenta:
+
+```bash
+zabbix_agent2 -V
+```
+
+Dále je potřeba ověřit na Zabbix serveru `enceladus.pfsense.cz`, že:
+
+- Host byl úspěšně automaticky zaregistrován.
+- Host má správný jedinečný název.
+- Host je přiřazen do odpovídající skupiny.
+- Host má správný štítek a šablonu pro Linux monitoring pomocí Zabbix Agent 2.
+- Z hosta přicházejí monitorovací data.
+
+## 6. Závěr
+
+Cílem projektu je vytvoření automatizovaného řešení pro nasazení Debianu 13 s monitorovacím agentem Zabbix Agent 2 ve verzi 8.0 LTS.
+
+Díky využití Vagrantu a provisioning skriptů je možné celý proces opakovaně spustit bez nutnosti manuální instalace a konfigurace uvnitř virtuálního stroje.
+
+
+![Registrace Debianu 13](Images/registrace.png)
